@@ -79,6 +79,21 @@ def between_markers_regex(text: str, begin: str, end: str) -> str:
     res = re.match(pattern, text)
     return res.group(1) if res else ''
 
+def correct_sentence(text: str) -> str:
+    """
+        returns a corrected sentence which starts with a capital letter
+        and ends with a dot.
+    """
+    out = ''
+    if text[0].islower():
+        out = text[0].upper() + text[1::]
+    else:
+        out = text
+
+    if not text.endswith('.'):
+        out = out + '.'
+    
+    return out
 
 
 if __name__ == '__main__':
