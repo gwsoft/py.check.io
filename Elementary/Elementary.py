@@ -95,6 +95,8 @@ def correct_sentence(text: str) -> str:
     
     return out
 
+def is_even(num: int) -> bool:
+    return num%2==0
 
 if __name__ == '__main__':
     print("Example:")

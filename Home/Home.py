@@ -80,3 +80,18 @@ def bigger_price(limit: int, data: list) -> list:
         d.update({ "name": sort_items[i][1], "price": sort_items[i][0] })
         out_list.append( d )
     return out_list
+
+def between_markers(text: str, begin: str, end: str) -> str:
+    """
+        returns substring between two given markers
+    """
+    ifrom = 0 if text.find(begin) < 0 else text.find(begin)+len(begin)
+    ito = len(text) if text.find(end) < 0 else text.find(end)
+    return text[ifrom:ito:]
+
+def non_unique_elements(data: list) -> list:
+    out = []
+    for e in data:
+        if data.count(e) > 1:
+            out.append(e)
+    return out
