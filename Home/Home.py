@@ -95,3 +95,17 @@ def non_unique_elements(data: list) -> list:
         if data.count(e) > 1:
             out.append(e)
     return out
+
+def popular_words(text: str, words: list) -> dict:
+    out = {}
+    items = text.lower().split()
+    for w in words:
+        out[w] = items.count(w)
+    return out
+
+def second_index(text: str, symbol: str) -> [int, None]:
+    """
+        returns the second index of a symbol in a given text
+    """
+    o = [x.start() for x in re.finditer(symbol,text)]
+    return o[1] if len(o)>1 else None
