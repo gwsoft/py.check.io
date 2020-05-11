@@ -109,3 +109,60 @@ def second_index(text: str, symbol: str) -> [int, None]:
     """
     o = [x.start() for x in re.finditer(symbol,text)]
     return o[1] if len(o)>1 else None
+
+def frequency_sort(items):
+    # remove duplicates from the items
+    items2 = list(dict.fromkeys(items))
+
+    # create list frequencies using list comprehension
+    freq = [items.count(i) for i in items2]
+
+    # create list of tuples (ti,tf), then sort the list according to tf
+    # from highest to lowest value
+    tuples = [ [items2[r], freq[r]] for r in range(0,len(items2)) ]
+    tuples.sort(key=lambda t:t[1], reverse=True)
+
+    # create output list
+    res = []
+    for ti,tf in tuples:
+        res += [ti]*tf    
+    return res
+
+files = 'abcdefgh'
+ranks = '12345678'
+
+def safe_pawns(pawns: set) -> int:
+    defenders = {}      # The dictionary consisting of all possible
+                        # squares for every pawn, where a defending pawn can
+                        # be placed.
+    safe_pawns = set()  # The output set consisting of pawns having at least
+                        # one defending pawn.
+
+    for p in pawns:
+        idx_file = files.index(p[0])
+        idx_rank = ranks.index(p[1])
+        # Each pawn can have two possible defenders
+        # on its left-bottom diagonal and/or its right-bottom diagonal
+        p_defenders = set()
+        # The row (rank) == 0 is not protected, a pawn has not got defenders there (if it
+        # only could be placed on this row).
+        if idx_rank > 0 and idx_rank < 8:
+            if idx_file > 0 and idx_file < 7:
+                p_defenders.add(files[idx_file+1] + ranks[idx_rank-1])
+                p_defenders.add(files[idx_file-1] + ranks[idx_rank-1])
+            # pawn on the leftmost column
+            elif idx_file == 0:
+                p_defenders.add(files[idx_file+1] + ranks[idx_rank-1])
+            # pawn on the rightmost column
+            elif idx_file == 7:
+                p_defenders.add(files[idx_file-1] + ranks[idx_rank-1])
+            defenders[p] = p_defenders
+
+    # For every pawn check if its defenders' squares are physically filled with another pawn.
+    # If so, add the pawn to the output set.
+    for k,v in defenders.items():
+        for i in range(len(v)):
+            if list(v)[i] in pawns:
+                safe_pawns.add(k)
+
+    return len(safe_pawns)
