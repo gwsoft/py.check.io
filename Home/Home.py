@@ -166,3 +166,21 @@ def safe_pawns(pawns: set) -> int:
                 safe_pawns.add(k)
 
     return len(safe_pawns)
+
+
+MONTHS = {1:'January', 2:'February', 3:'March', \
+          4:'April', 5:'May', 6:'June', \
+          7:'July', 8:'August', 9:'September', \
+          10:'October', 11:'November', 12:'December' }
+
+def date_time(time: str) -> str:
+    pattern = r'^(?P<dd>\d{2}).(?P<mm>\d{2}).(?P<yyyy>\d{4}) (?P<hh>\d{2}):(?P<mi>\d{2})$'
+    o = re.match(pattern, time)
+    time = "%s %s %s year %s %s %s %s" % (int(o.group('dd')), \
+		     MONTHS[int(o.group('mm'))], \
+		     o.group('yyyy'), \
+		     int(o.group('hh')), \
+		     ('hours','hour')[o.group('hh')=='01'], \
+		     int(o.group('mi')), \
+		     ('minutes','minute')[o.group('mi')=='01'])
+    return time
