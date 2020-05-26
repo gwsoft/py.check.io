@@ -184,3 +184,57 @@ def date_time(time: str) -> str:
 		     int(o.group('mi')), \
 		     ('minutes','minute')[o.group('mi')=='01'])
     return time
+
+from datetime import timedelta
+
+def sun_angle(time):
+    (h,m) = time.split(':')
+    if '06:00' <= time <= '18:00':
+        delta_sec = (timedelta(hours=int(h), minutes=int(m)) \
+                     - timedelta(hours=6,minutes=0)).seconds
+        delta_min = delta_sec//60
+        angle = 0.25*delta_min      # 180° -- 720min
+        return round(angle,2)
+    else:
+        return "I don't see the sun!"
+
+# split_list
+from math import ceil
+
+def split_list(items: list) -> list:
+    mid = ceil(len(items)/2)
+    return [items[:mid], items[mid:]]
+
+# all_the_same
+from typing import List, Any
+
+
+def all_the_same(elements: List[Any]) -> bool:
+    try:
+        elements.sort()
+    except:
+        return False
+    return elements[0]==elements[-1] if elements else True
+
+# morse_decoder
+MORSE = {'.-':    'a', '-...':  'b', '-.-.':  'c',
+         '-..':   'd', '.':     'e', '..-.':  'f',
+         '--.':   'g', '....':  'h', '..':    'i',
+         '.---':  'j', '-.-':   'k', '.-..':  'l',
+         '--':    'm', '-.':    'n', '---':   'o',
+         '.--.':  'p', '--.-':  'q', '.-.':   'r',
+         '...':   's', '-':     't', '..-':   'u',
+         '...-':  'v', '.--':   'w', '-..-':  'x',
+         '-.--':  'y', '--..':  'z', '-----': '0',
+         '.----': '1', '..---': '2', '...--': '3',
+         '....-': '4', '.....': '5', '-....': '6',
+         '--...': '7', '---..': '8', '----.': '9'
+        }
+
+def morse_decoder(code):
+    MORSE['#']='#'                      # add a special character to the dictionary for separating words
+    words = code.replace(" "*3, " # ")  # replace 3 spaces with the separator
+    translate = [MORSE[i] for i in words.split(" ")]   # do translation of every letter in the input code
+    if translate[0].isalpha():
+        translate[0] = translate[0].upper()
+    return ''.join(translate).replace('#',' ')
